@@ -1,5 +1,12 @@
 #!/bin/bash
-
+# company name details
+country=MY
+state=MY
+locality=Malaysia
+organization=Personal
+organizationalunit=Personal
+commonname=RangersVPN
+email=rangersvpn@gmail.com
 clear
 apt-get install ruby -y
 ruby --version
@@ -86,6 +93,36 @@ client-cert-not-required
 username-as-common-name
 verb 2' >/etc/openvpn/server-tcp-1103.conf
 
+echo 'port 1194
+proto tcp
+dev tun
+dev-type tun
+sndbuf 0
+rcvbuf 0
+ca ca.crt
+cert server.crt
+key server.key
+dh dh2048.pem
+tls-auth ta.key 0
+topology subnet
+server 10.9.0.0 255.255.255.0
+ifconfig-pool-persist ipp.txt
+push "redirect-gateway def1 bypass-dhcp"
+push "dhcp-option DNS 8.8.8.8"
+push "dhcp-option DNS 8.8.4.4"
+keepalive 10 120
+cipher AES-256-CBC
+auth SHA256
+comp-lzo
+user nobody
+group nogroup
+persist-tun
+status openvpn-status.log
+mute 3
+plugin /usr/lib/openvpn/openvpn-plugin-auth-pam.so login
+client-cert-not-required
+username-as-common-name
+verb 2' >/etc/openvpn/server-tcp-1194.conf
 
 echo 'port 25000
 proto udp
