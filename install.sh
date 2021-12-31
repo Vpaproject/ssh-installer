@@ -55,7 +55,7 @@ cp keys/client.key /etc/openvpn
 cp keys/client.crt /etc/openvpn
 cp keys/ta.key /etc/openvpn
 
-echo 'port 1194
+echo 'port 1103
 proto tcp
 dev tun
 dev-type tun
@@ -84,7 +84,7 @@ mute 3
 plugin /usr/lib/openvpn/openvpn-plugin-auth-pam.so login
 client-cert-not-required
 username-as-common-name
-verb 2' >/etc/openvpn/server-tcp-1194.conf
+verb 2' >/etc/openvpn/server-tcp-1103.conf
 
 
 echo 'port 25000
@@ -124,9 +124,11 @@ cd
 echo "client
 dev tun
 proto tcp
-remote $MYIP 1194
+remote $MYIP 1103
 http-proxy-retry
 http-proxy $MYIP 8080
+remote 127.0.0.1 1103
+route $MYIP 255.255.255.255 net_gateway
 route-method exe
 resolv-retry infinite
 nobind
@@ -152,7 +154,7 @@ sam
 sam
 </auth-user-pass>
 
-" >/var/www/html/client-tcp-1194.ovpn
+" >/var/www/html/tcp.ovpn
 
 echo "client
 dev tun
@@ -268,7 +270,7 @@ echo "</key>"
 echo "<tls-auth>"
 cat "/etc/openvpn/ta.key"
 echo "</tls-auth>"
-} >>client-tcp-1194.ovpn
+} >>tcp.ovpn
 
 {
 echo "<ca>"
@@ -487,19 +489,15 @@ socket = l:TCP_NODELAY=1
 socket = r:TCP_NODELAY=1
 
 [dropbear]
-accept = 443
+accept = 446
 connect = 127.0.0.1:143
 
-[dropbear]
-accept = 9443
-connect = 127.0.0.1:1194
+[openvpn]
+accept = 587
+connect = 127.0.0.1:1103
 
-[dropbear]
-accept = 2905
-connect = 127.0.0.1:9994
-
-[dropbear]
-accept = 990
+[openssh]
+accept = 445
 connect = 127.0.0.1:22
 
 END
