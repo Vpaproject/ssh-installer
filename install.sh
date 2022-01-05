@@ -74,13 +74,13 @@ cd
 
 chmod +x /etc/openvpn/ca.crt
 
-cp keys/ca.crt /etc/openvpn
-cp keys/server.crt /etc/openvpn
-cp keys/server.key /etc/openvpn
-cp keys/dh.pem /etc/openvpn
-cp keys/client.key /etc/openvpn
-cp keys/client.crt /etc/openvpn
-cp keys/ta.key /etc/openvpn
+cp config/ca.crt /etc/openvpn
+cp config/server.crt /etc/openvpn
+cp config/server.key /etc/openvpn
+cp config/dh.pem /etc/openvpn
+cp config/client.key /etc/openvpn
+cp config/client.crt /etc/openvpn
+cp config/ta.key /etc/openvpn
 
 echo 'port 1103
 proto tcp
