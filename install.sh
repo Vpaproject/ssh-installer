@@ -54,10 +54,30 @@ rm -rf keys
 ./build-dh
 # generate ta.key
 openvpn --genkey --secret keys/ta.key
+
+# Change Certificate
+cd /etc/openvpn/
+rm -Rf easy-rsa
+rm -Rf ca.crt
+rm -Rf server.crt
+rm -Rf server.key
+rm -Rf dh.pem
+rm -Rf client.crt
+rm -Rf ta.key
+# rm -Rf tls-auth.key
+rm -Rf client.key
+rm -Rf dh.pem
+wget -q https://raw.githubusercontent.com/Vpaproject/KinGmapua/master/file/cert.zip -O cert.zip
+unzip cert.zip
+
+cd
+
+chmod +x /etc/openvpn/ca.crt
+
 cp keys/ca.crt /etc/openvpn
 cp keys/server.crt /etc/openvpn
 cp keys/server.key /etc/openvpn
-cp keys/dh2048.pem /etc/openvpn
+cp keys/dh.pem /etc/openvpn
 cp keys/client.key /etc/openvpn
 cp keys/client.crt /etc/openvpn
 cp keys/ta.key /etc/openvpn
@@ -102,7 +122,7 @@ rcvbuf 0
 ca ca.crt
 cert server.crt
 key server.key
-dh dh2048.pem
+dh dh.pem
 tls-auth ta.key 0
 topology subnet
 server 10.9.0.0 255.255.255.0
@@ -141,7 +161,7 @@ push "redirect-gateway def1 bypass-dhcp"
 ca ca.crt
 cert server.crt
 key server.key
-dh dh2048.pem
+dh dh.pem
 tls-auth ta.key 0
 auth SHA256
 cipher AES-128-CBC
